@@ -1,7 +1,7 @@
 #To reproduce chart like the one at https://www.musichistorystats.com/song-lyrics-3-repetition-and-compression/
 #although that one was done with the full dataset, so slightly different
 
-library(tidyverse)
+library(tidyverse) 
 library(tidytext)
 library(extrafont) #optional for formatting chart
 

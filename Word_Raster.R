@@ -1,7 +1,7 @@
 #Word Raster diagrams for https://www.musichistorystats.com/song-lyrics-3-repetition-and-compression/
 
 library(tidyverse)
-library(tidytext)  #for unnest_tokens
+library(tidytext)  #for unnest_tokens 
 library(extrafont) #optional for formatting chart
 
 #read in subset of lyrics data with just songs by main artists

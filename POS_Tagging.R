@@ -1,7 +1,7 @@
 #Investigations for https://www.musichistorystats.com/song-lyrics-8-parts-of-speech-tagging/
 
 library(tidyverse)
-library(tidytext)       #used here for the stop_words data
+library(tidytext)       #used here for the stop_words data 
 library(koRpus)
 library(koRpus.lang.en) #english language pack
 library(pbapply)        #'apply' functions with a progress bar
