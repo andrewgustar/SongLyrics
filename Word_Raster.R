@@ -41,4 +41,3 @@ outer(words$word, words$word, "==") %>%                    #create logical matri
                            "% of total words\nGZIP Compression :",
                            round(100 * song$compress), "%"))
 
-

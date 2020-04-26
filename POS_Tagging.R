@@ -7,7 +7,7 @@ library(koRpus.lang.en) #english language pack
 library(pbapply)        #'apply' functions with a progress bar
 
 #read in subset of lyrics data with just songs by main artists
-lyrArts <- readRDS("lyrics_mainArtists.RDS")
+lyrics <- readRDS("lyrics_mainArtists.RDS")
 
 #do POS tagging
 #
@@ -16,7 +16,7 @@ lyrArts <- readRDS("lyrics_mainArtists.RDS")
 #
 set.kRp.env(TT.cmd="c:/TreeTagger/bin/tag-english.bat", lang="en")   #set path of treetagger executable
 
-textTag <- pblapply(lyrArts$lyrics, treetag, format="obj", stopwords = stop_words$word) 
+textTag <- pblapply(lyrics$lyrics, treetag, format="obj", stopwords = stop_words$word) 
 
 #example as used in article
 treetag("Somewhere over the rainbow, way up high, there's a place that I heard of, once in a lullaby.", format = "obj")@TT.res
@@ -41,10 +41,10 @@ lyrStats <- lyrStats %>%
 #
 textReadability <- pbsapply(textTag, function(x) flesch(x, quiet=TRUE)@Flesch$RE) 
 
-textReadability <- data.frame(Ref=lyrArts$Ref, Readability=textReadability, stringsAsFactors = FALSE)
+textReadability <- data.frame(Ref=lyrics$Ref, Readability=textReadability, stringsAsFactors = FALSE)
 
 #merge data into lyrics dataframe by reference number
-lyrArts <- lyrArts %>% 
+lyrics <- lyrics %>% 
   left_join(lyrStats) %>% 
   left_join(textReadability)
 
@@ -84,7 +84,7 @@ tagsdist <- lyricsTag %>%
 #top adjective, noun and verb for each artist
 artistAdjVerb <- lyricsTag %>% 
   mutate(subtag = substr(tag, 1, 2)) %>% 
-  left_join(lyrArts %>% select(Ref, artist, decade)) %>% 
+  left_join(lyrics %>% select(Ref, artist, decade)) %>% 
   count(artist, subtag, lemma) %>% 
   filter(subtag %in% c("JJ", "VV", "NN")) %>% 
   group_by(artist, subtag) %>% 
@@ -94,7 +94,7 @@ artistAdjVerb <- lyricsTag %>%
 #top adjective, noun and verb by decade
 decadeAdjVerb <- lyricsTag %>% 
   mutate(subtag = substr(tag, 1, 2)) %>% 
-  left_join(lyrArts %>% select(Ref, decade)) %>% 
+  left_join(lyrics %>% select(Ref, decade)) %>% 
   count(decade, subtag, lemma) %>% 
   filter(subtag %in% c("JJ", "VV", "NN")) %>% 
   group_by(decade, subtag) %>% 
